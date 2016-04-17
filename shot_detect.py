@@ -1,12 +1,4 @@
 # Shot_Detector
-import mraa 
-import time
-import socket   #for sockets
-import sys  #for exit
-
-INTERVAL = .05                   # Sound Signature Sample time
-SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
-
 #LED_GPIO = 5                   # The LED pin
 TRIGGER_GPIO = 6               # The TRIGGER GPIO
 #led = mraa.Gpio(LED_GPIO)      # Get the LED pin object
@@ -73,14 +65,17 @@ def getSignature():
             continue
             
             
-         
-
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
     msg = '{"n": "temp", "v": 1.0}'
     nullmsg = '{"n": "temp", "v": 0.0}'
     shotCt=0
+    shotmsg = ('{"n": "temp", "v": '+ shotCt +'}')
+    shotnullmsg = '{"n": "temp", "v": ' + 0 +'}'
+    t = time.time()
+    next_sample_time = t + SENDMSG_INTERVAL
+    
     # initialize our socket...
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -89,11 +84,23 @@ if __name__ == '__main__':
         sys.exit()
 
     while 1:
+        t = time.time()    
+        if t > next_sample_time:
+            try :
+                #Set the whole string
+                s.sendto(shotmsg, (host, port))
+#               print 'Message Sent', shotCt
+                shotCt=0
+                
+
+            except socket.error, msg:
+                print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                sys.exit()
+            continue
         # wait until trigger or timed out
         lowtrig = getTriggerf()
-        print 'Sound Detected or Timed Out'
  
-        if lowtrig == 0:
+        if lowtrig != 0:
                  
             try:
                 #Set the whole string
@@ -107,7 +114,7 @@ if __name__ == '__main__':
             continue
         else:    
             shotdata =getSignature ()
-            print 'Signature Detected'
+            #print 'Signature Detected'
             print shotdata
 
             if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
@@ -115,11 +122,12 @@ if __name__ == '__main__':
                     #Set the whole string
                     s.sendto(msg, (host, port))
                     shotCt += 1
-		    print 'Message Sent', shotCt
+                    print 'Message Sent', shotCt
 
                 except socket.error, msg:
                     print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                     sys.exit()
+                continue
 
         # Button click, detected, now toggle the LED
 #        if ledState == True:
