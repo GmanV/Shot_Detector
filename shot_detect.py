@@ -1,6 +1,4 @@
 
-
-#update from linux
 # Shot_Detector
 import mraa 
 import time
@@ -40,13 +38,13 @@ def getTriggerf():
 
 
 def getSignature():
-    """ This function determines if a valid shot is fired """                
+    """ This function returns a list of high/low pulses and number of toggles """                
     t = time.time() 
     next_sample_time = t + INTERVAL
     lowCt=0
     highCt=0
     prevstate=0
-    toggleCt=1
+    toggleCt=1		
                 
     while True:
         t = time.time()  
@@ -109,19 +107,13 @@ if __name__ == '__main__':
             try :
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
-
                 print 'Shot Message Sent', shotCt
-
 #               print 'Message Sent', shotCt
-
-                shotCt=0
-                
 
             except socket.error, msg:
                 print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                 sys.exit()
 
-           
         print 'going into get trigger'
 	# wait until trigger or timed out
 
@@ -154,12 +146,9 @@ if __name__ == '__main__':
                     #Set the whole string
                     s.sendto(msg, (host, port))
                     shotCt += 1
-
                     print 'Threshold reached', shotCt
-
                     print 'Message Sent', shotCt
-
-
+                    
                 except socket.error, msg:
                     print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                     sys.exit()
