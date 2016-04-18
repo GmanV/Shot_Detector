@@ -1,5 +1,6 @@
 
 
+#update from linux
 # Shot_Detector
 import mraa 
 import time
