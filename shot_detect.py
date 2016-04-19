@@ -68,7 +68,7 @@ if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
     msg = '{"n": "temp", "v": 1.0}'
-    msg1 = '{"n": "temp", "v": .2}'
+    msg1 = '{"n": "temp", "v": 0.2}'
     nullmsg = '{"n": "temp", "v": 0.0}'
     shotCt=0
 
@@ -145,9 +145,10 @@ if __name__ == '__main__':
                     try :
                         #Set the whole string
                         s.sendto(msg1, (host, port))
+                        print 'Disturbance'
                     
-                    except socket.error, msg:
-                        print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                    except socket.error, msg1:
+                        print 'Error Code : ' + str(msg1[0]) + ' Message ' + msg1[1]
                         sys.exit() 
                         
                         continue
