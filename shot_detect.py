@@ -1,4 +1,3 @@
-
 # Shot_Detector
 import mraa 
 import time
@@ -20,59 +19,50 @@ trig.dir(mraa.DIR_IN)           # Set the direction as input
 
 
 def getTriggerf():
-    """ This function operates for minimal send interval """
+    """ This function operates for minimal send interval of trigger event """
     t = time.time()
     next_sample_time = t + SENDMSG_INTERVAL
     
     while (1):
         t = time.time()
+        if (trig.read() != 1):
+            # No trigger detected
+            return (0) 
         if t > next_sample_time:
-            #print 'Timed Out'
+            #print 'Timed Out, no trigger event'
             return (1)
-        if (trig.read() != 0):
+        else:
             # No trigger detected
             continue
-        else:
-            # Detected a trigger
-            return (0)
 
-
+            
 def getSignature():
-    """ This function returns a list of high/low pulses and number of toggles """                
+    """ This function returns a list of high/low pulses and the number of toggles """                
     t = time.time() 
     next_sample_time = t + INTERVAL
     lowCt=0
     highCt=0
     prevstate=0
-    toggleCt=1		
+    toggleCt=1  # Had 1st toggle approaching function
                 
     while True:
         t = time.time()  
         if (trig.read() != prevstate):
             toggleCt += 1
             prevstate= trig.read()
-        else:
 
-            if t > next_sample_time:
-                #print highCt
-                #print lowCt
-                #print toggleCt
+        if (trig.read() == 1):     # valid high pulse
+            highCt += 1
+                  
+        else:     # Valid low pulse         
+            lowCt += 1
+ 
+        if t > next_sample_time:
                 shotdata=[]
                 shotdata.append (highCt)
                 shotdata.append (lowCt)
                 shotdata.append (toggleCt)
                 return shotdata
-
-        if trig.read() == 1:
-             # valid highpulse
-             highCt += 1
-             continue
-                    
-        else:
-            # Detected a click
-            lowCt += 1
-            continue
-            
             
 if __name__ == '__main__':
     host = '127.0.0.1'
@@ -81,15 +71,13 @@ if __name__ == '__main__':
     nullmsg = '{"n": "temp", "v": 0.0}'
     shotCt=0
 
-    shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
-    print shotmsg
+#    shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
     shotnullmsg = '{"n": "shots", "v": 0}'
-    print shotnullmsg
 
-    shotmsg = ('{"n": "shots", "v": ', shotCt, '}')
-    shotnullmsg = '{"n": "shots", "v": ', 0, '}'
-    t = time.time()
-    next_sample_time = t + SENDMSG_INTERVAL
+#    shotmsg = ('{"n": "shots", "v": ', shotCt, '}')
+#    shotnullmsg = '{"n": "shots", "v": ', 0, '}'
+#    t = time.time()
+#    next_sample_time = t + SENDMSG_INTERVAL
     
     # initialize our socket...
     try:
@@ -100,59 +88,56 @@ if __name__ == '__main__':
 
     while 1:
 
+# 1st checks for SendMsg Interval for number of shots               
         shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
-
-        t = time.time()    
+        t = time.time()
+        next_sample_time = t + SENDMSG_INTERVAL
         if t > next_sample_time:
             try :
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
                 print 'Shot Message Sent', shotCt
-#               print 'Message Sent', shotCt
 
             except socket.error, msg:
                 print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                 sys.exit()
 
-        print 'going into get trigger'
+        else:
+            print 'going into get trigger'
+            
 	# wait until trigger or timed out
-
-
-
-
-        lowtrig = getTriggerf()
+            lowtrig = getTriggerf()
  
-        if lowtrig != 0:
+            if lowtrig != 0:
                  
-            try:
-                #Set the whole string
-                s.sendto(nullmsg, (host, port))
-                print 'Null Message Sent'
-                print nullmsg
-
-            except socket.error, msg:
-                print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-                sys.exit() 
-
-            continue
-
-        else:    
-            shotdata =getSignature ()
-            #print 'Signature Detected'
-            print shotdata
-
-            if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
-                try :
+                try:
                     #Set the whole string
-                    s.sendto(msg, (host, port))
-                    shotCt += 1
-                    print 'Threshold reached', shotCt
-                    print 'Message Sent', shotCt
-                    
+                    s.sendto(nullmsg, (host, port))
+                    print 'Null Message Sent'
+
                 except socket.error, msg:
                     print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-                    sys.exit()
+                    sys.exit() 
+
                 continue
+
+            else:    
+                shotdata =getSignature ()
+                #print 'Signature Detected'
+                print shotdata
+
+                if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
+                    try :
+                        #Set the whole string
+                        s.sendto(msg, (host, port))
+                        shotCt += 1
+                        print 'Threshold reached ', shotCt
+                        print 'Message Sent ', shotCt
+                    
+                    except socket.error, msg:
+                        print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                        sys.exit()
+                    continue
 
         # Button click, detected, now toggle the LED
 #        if ledState == True:
@@ -163,4 +148,6 @@ if __name__ == '__main__':
 #            ledState = True
 
 #    time.sleep(0.005)
+
+
 
