@@ -76,8 +76,8 @@ if __name__ == '__main__':
 
 #    shotmsg = ('{"n": "shots", "v": ', shotCt, '}')
 #    shotnullmsg = '{"n": "shots", "v": ', 0, '}'
-#    t = time.time()
-#    next_sample_time = t + SENDMSG_INTERVAL
+     t = time.time()
+     next_sample_time = t + SENDMSG_INTERVAL
     
     # initialize our socket...
     try:
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 # 1st checks for SendMsg Interval for number of shots               
 
         t = time.time()
-        next_sample_time = t + SENDMSG_INTERVAL
+
         if t > next_sample_time:
             try :
             	shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
@@ -99,6 +99,7 @@ if __name__ == '__main__':
                 s.sendto(shotmsg, (host, port))
                 print 'Shot Message Sent', shotCt
                 shotCt = 0
+                next_sample_time = t + SENDMSG_INTERVAL
 
             except socket.error, msg:
                 print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
