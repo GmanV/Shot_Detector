@@ -76,8 +76,8 @@ if __name__ == '__main__':
 
 #    shotmsg = ('{"n": "shots", "v": ', shotCt, '}')
 #    shotnullmsg = '{"n": "shots", "v": ', 0, '}'
-     t = time.time()
-     next_sample_time = t + SENDMSG_INTERVAL
+    t = time.time()
+    next_sample_time = t + SENDMSG_INTERVAL
     
     # initialize our socket...
     try:
