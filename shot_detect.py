@@ -68,6 +68,7 @@ if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
     msg = '{"n": "temp", "v": 1.0}'
+    msg1 = '{"n": "temp", "v": .2}'
     nullmsg = '{"n": "temp", "v": 0.0}'
     shotCt=0
 
@@ -140,7 +141,16 @@ if __name__ == '__main__':
                     except socket.error, msg:
                         print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                         sys.exit()
-                continue
+                else:
+                    try :
+                        #Set the whole string
+                        s.sendto(msg1, (host, port))
+                    
+                    except socket.error, msg:
+                        print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                        sys.exit() 
+                        
+                        continue
 
         # Button click, detected, now toggle the LED
 #        if ledState == True:
