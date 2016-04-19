@@ -4,7 +4,7 @@ import time
 import socket   #for sockets
 import sys  #for exit
 
-INTERVAL = .075                   # Sound Signature Sample time
+INTERVAL = .05                   # Sound Signature Sample time
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
@@ -130,7 +130,7 @@ if __name__ == '__main__':
                 #print 'Signature Detected'
                 print shotdata
 
-                if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
+                if shotdata[1] > 2 < 20 and shotdata[2] > 4 < 30 :
                     try :
                         #Set the whole string
                         s.sendto(msg, (host, port))
