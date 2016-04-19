@@ -4,7 +4,7 @@ import time
 import socket   #for sockets
 import sys  #for exit
 
-INTERVAL = .05                   # Sound Signature Sample time
+INTERVAL = .075                   # Sound Signature Sample time
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
@@ -136,7 +136,6 @@ if __name__ == '__main__':
                         s.sendto(msg, (host, port))
                         shotCt += 1
                         print 'Threshold reached ', shotCt
-                        print 'Message Sent ', shotCt
                     
                     except socket.error, msg:
                         print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
