@@ -89,14 +89,16 @@ if __name__ == '__main__':
     while 1:
 
 # 1st checks for SendMsg Interval for number of shots               
-        shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
+
         t = time.time()
         next_sample_time = t + SENDMSG_INTERVAL
         if t > next_sample_time:
             try :
+            	shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
                 print 'Shot Message Sent', shotCt
+                shotCt = 0
 
             except socket.error, msg:
                 print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
@@ -118,8 +120,8 @@ if __name__ == '__main__':
                 except socket.error, msg:
                     print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                     sys.exit() 
+	
 
-                continue
 
             else:    
                 shotdata =getSignature ()
@@ -137,7 +139,7 @@ if __name__ == '__main__':
                     except socket.error, msg:
                         print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
                         sys.exit()
-                    continue
+                continue
 
         # Button click, detected, now toggle the LED
 #        if ledState == True:
