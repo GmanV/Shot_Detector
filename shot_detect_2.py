@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
                     if tuno > secsample_time:
                         try :
-                            shotpersecmsg = ''.join(('{"n": "shots", "v": ', str(shot),'}'))
+                            shotpersecmsg = ''.join(('{"n": "shot", "v": ', str(shot),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg, (host, port))
                             shot += 1
@@ -162,7 +162,7 @@ if __name__ == '__main__':
                   
                         try :
                             disturb= float(disturb) / (loopCt)
-                            shotpersecmsg1 = ''.join(('{"n": "shots", "v": ', str(disturb),'}'))
+                            shotpersecmsg1 = ''.join(('{"n": "shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
                     
