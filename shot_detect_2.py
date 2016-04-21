@@ -74,12 +74,7 @@ if __name__ == '__main__':
     shot=0
     disturb=0
     shotCt=0
-    
-#    shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
     shotnullmsg = '{"n": "shots", "v": 0}'
-
-#    shotmsg = ('{"n": "shots", "v": ', shotCt, '}')
-#    shotnullmsg = '{"n": "shots", "v": ', 0, '}'
     t = time.time()
     next_sample_time = t + SENDMSG_INTERVAL
     
@@ -101,7 +96,7 @@ if __name__ == '__main__':
             	shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
-                print 'Shot Message Sent', shotCt
+                print 'Shot Ct Message Sent', shotCt
                 shotCt = 0
                 next_sample_time = t + SENDMSG_INTERVAL
 
@@ -120,15 +115,14 @@ if __name__ == '__main__':
                 try:
                     #Set the whole string
                     s.sendto(nullmsg, (host, port))
-                    print 'Null Message Sent'
+                    print 'No trigger events, nullmsg sent'
 
                 except socket.error, msg:
-                    print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                    print 'Error Code : ' + str(nullmsg[0]) + ' Message ' + nullmsg[1]
                     sys.exit() 
-	
-
 
             else:
+            	# Trigger event occured
                 tuno = time.time()
                 secsample_time = tuno + BYSEC_INTERVAL
                 loopCt=0
@@ -148,11 +142,14 @@ if __name__ == '__main__':
 
                     if tuno > secsample_time:
                         try :
-                            shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
+                            if shot > 4:
+                                shot = 0.2
+                                shotCt =0	
                             #Set the whole string
+                            shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             s.sendto(shotpersecmsg, (host, port))
-                            shot += 1
-                            shotCt += 1
+                            shotCt = shot
+                            shot = 0
                             print 'Threshold reached ', shotCt
                     
                         except socket.error, msg:
@@ -165,14 +162,16 @@ if __name__ == '__main__':
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
+                            disturb=0
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
                             sys.exit() 
-                         
-                            continue    
                 
-                
+                     else:         
+                         continue    
+            print 'onto main while loop'                
+            continue    
                 
         # Button click, detected, now toggle the LED
 #        if ledState == True:
