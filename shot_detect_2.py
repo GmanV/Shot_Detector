@@ -134,11 +134,12 @@ if __name__ == '__main__':
                     #print 'Signature Detected'
                     print shotdata
 
-                    if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
+                    if shotdata[1] > 0 < 25 and shotdata[2] > 1 < 50 :
                         shot += 1
-                        
+                        print shot
                     else:
                         disturb += 0.2
+                        print disturb
 
                     if tuno > secsample_time:
                         try :
