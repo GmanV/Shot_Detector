@@ -68,9 +68,9 @@ def getSignature():
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
-    msg = '{"n": "temp", "v": 1.0}'
-    msg1 = '{"n": "temp", "v": .2}'
-    nullmsg = '{"n": "temp", "v": 0.0}'
+    msg = '{"n": "shot", "v": 1.0}'
+    msg1 = '{"n": "shot", "v": .2}'
+    nullmsg = '{"n": "shot", "v": 0.0}'
     shot=0
     disturb=0
     shotCt=0
