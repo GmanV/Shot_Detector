@@ -68,9 +68,9 @@ def getSignature():
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
-    msg = '{"n": "shot", "v": 1.0}'
-    msg1 = '{"n": "shot", "v": .2}'
-    nullmsg = '{"n": "shot", "v": 0.0}'
+    msg = '{"n": "Shot", "v": 1.0}'
+    msg1 = '{"n": "Shot", "v": .2}'
+    nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
     disturb=0
     shotCt=0
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
                     if tuno > secsample_time:
                         try :
-                            shotpersecmsg = ''.join(('{"n": "shot", "v": ', str(shot),'}'))
+                            shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg, (host, port))
                             shot += 1
@@ -162,7 +162,7 @@ if __name__ == '__main__':
                   
                         try :
                             disturb= float(disturb) / (loopCt)
-                            shotpersecmsg1 = ''.join(('{"n": "shot", "v": ', str(disturb),'}'))
+                            shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
                     
