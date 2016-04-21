@@ -155,7 +155,7 @@ if __name__ == '__main__':
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg[0]) + ' Message ' + shotpersecmsg[1]
                             sys.exit()
-                            continue 
+
                   
                         try :
                             disturb= float(disturb) / (loopCt)
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
                             sys.exit() 
-                
+                        break
 
             print 'onto main while loop'                
             continue    
