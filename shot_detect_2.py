@@ -168,8 +168,7 @@ if __name__ == '__main__':
                             print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
                             sys.exit() 
                 
-                     else:         
-                         continue    
+
             print 'onto main while loop'                
             continue    
                 
