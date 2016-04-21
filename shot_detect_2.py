@@ -1,11 +1,11 @@
-# Shot_Detector
+# Shot_Detector 2
 import mraa 
 import time
 import socket   #for sockets
 import sys  #for exit
 
 INTERVAL = .05                   # Sound Signature Sample time
-BYSEC_INTERVAL = 1
+BYSEC_INTERVAL =1
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
@@ -68,11 +68,13 @@ def getSignature():
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
-    msg = '{"n": "Shot", "v": 1.0}'
-    msg1 = '{"n": "Shot", "v": 0.2}'
-    nullmsg = '{"n": "Shot", "v": 0.0}'
+    msg = '{"n": "temp", "v": 1.0}'
+    msg1 = '{"n": "temp", "v": .2}'
+    nullmsg = '{"n": "temp", "v": 0.0}'
+    shot=0
+    disturb=0
     shotCt=0
-
+    
 #    shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
     shotnullmsg = '{"n": "shots", "v": 0}'
 
@@ -126,33 +128,52 @@ if __name__ == '__main__':
 	
 
 
-            else:    
-                shotdata =getSignature ()
-                #print 'Signature Detected'
-                print shotdata
+            else:
+                tuno = time.time()
+                secsample_time = tuno + BYSEC_INTERVAL
+                loopCt=0
+       
+                while 1:
+                    tuno = time.time()
+                    loopCt +=1
+                    shotdata =getSignature ()
+                    #print 'Signature Detected'
+                    print shotdata
 
-                if shotdata[1] > 2 < 20 and shotdata[2] > 4 < 30 :
-                    try :
-                        #Set the whole string
-                        s.sendto(msg, (host, port))
-                        shotCt += 1
-                        print 'Threshold reached ', shotCt
-                    
-                    except socket.error, msg:
-                        print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-                        sys.exit()
-                else:
-                    try :
-                        #Set the whole string
-                        s.sendto(msg1, (host, port))
-                        print 'Disturbance'
-                    
-                    except socket.error, msg1:
-                        print 'Error Code : ' + str(msg1[0]) + ' Message ' + msg1[1]
-                        sys.exit() 
+                    if shotdata[1] > 5 < 100 and shotdata[2] > 5 < 50 :
+                        shot += 1
                         
-                        continue
+                    else:
+                        disturb += 0.2
 
+                    if tuno > secsample_time:
+                        try :
+                            shotpersecmsg = ''.join(('{"n": "shots", "v": ', str(shot),'}'))
+                            #Set the whole string
+                            s.sendto(shotpersecmsg, (host, port))
+                            shot += 1
+                            shotCt += 1
+                            print 'Threshold reached ', shotCt
+                    
+                        except socket.error, msg:
+                            print 'Error Code : ' + str(shotpersecmsg[0]) + ' Message ' + shotpersecmsg[1]
+                            sys.exit()
+                            continue 
+                  
+                        try :
+                            disturb= float(disturb) / (loopCt)
+                            shotpersecmsg1 = ''.join(('{"n": "shots", "v": ', str(disturb),'}'))
+                            #Set the whole string
+                            s.sendto(shotpersecmsg1, (host, port))
+                    
+                        except socket.error, msg:
+                            print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
+                            sys.exit() 
+                         
+                            continue    
+                
+                
+                
         # Button click, detected, now toggle the LED
 #        if ledState == True:
 #            led.write(1)
@@ -162,6 +183,7 @@ if __name__ == '__main__':
 #            ledState = True
 
 #    time.sleep(0.005)
+
 
 
 
