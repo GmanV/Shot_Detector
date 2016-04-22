@@ -136,7 +136,7 @@ if __name__ == '__main__':
                     if shotdata[1] !=0 and shotdata[2] !=1:
                         print shotdata
                         loopCt +=1
-                        if shotdata[1] / shotdata[2] > 0.5 and shotdata[1] / shotdata[2] < 2.5:
+                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 2.5:
                             shot += 1
                             print 'shot fired ', shot
                         else:
@@ -161,12 +161,12 @@ if __name__ == '__main__':
 
                   
                         try :
-                            disturb= disturb / loopCt
+                            disturb= float(disturb) / loopCt
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
                             print shotpersecmsg1
-                            disturb=0
+                            disturb=0.0
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
