@@ -47,12 +47,13 @@ def getSignature():
     toggleCt=1  # Had 1st toggle approaching function
                 
     while True:
-        t = time.time()  
-        if (trig.read() != prevstate):
+        t = time.time()
+        trigpin=trig.read()
+        if (trigpin != prevstate):
             toggleCt += 1
-            prevstate= trig
+            prevstate= trigpin
 
-        if (trig == 1):     # valid high pulse
+        if (trigpin == 1):     # valid high pulse
             highCt += 1
                   
         else:     # Valid low pulse         
