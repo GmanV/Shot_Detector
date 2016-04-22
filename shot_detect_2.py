@@ -44,7 +44,7 @@ def getSignature():
     lowCt=0
     highCt=0
     prevstate=0
-    toggleCt=1  # Had 1st toggle approaching function
+    toggleCt=0  
                 
     while True:
         t = time.time()
@@ -106,7 +106,7 @@ if __name__ == '__main__':
                 sys.exit()
 
         else:
-            print 'going into get trigger'
+        #   print 'going into get trigger'
             
 	# wait until trigger or timed out
             lowtrig = getTriggerf()
@@ -130,30 +130,30 @@ if __name__ == '__main__':
        
                 while 1:
                     tuno = time.time()
-                    loopCt +=1
+
                     shotdata =getSignature ()
                     #print 'Signature Detected'
-                    if shotdata[1] !=0 or shotdata[2] !=2
-                         print shotdata
- 			 shot += 1
-                    #if shotdata[1] > 0 < 25 and shotdata[2] > 1 < 50 :
-                     #   shot += 1
-                        # print shot
-                    else:
-                        disturb += 0.2
-                        print disturb
+                    if shotdata[1] !=0 and shotdata[2] !=1
+                        print shotdata
+                        loopCt +=1
+                        if shotdata[1] / shotdata[2] > 0.5 and < 1.75:
+                             shot += 1
+                             print 'shot fired ', shot
+                        else:
+                            disturb += 1
+                            print 'disturb ', disturb
 
                     if tuno > secsample_time:
                         try :
-                            if shot > 4:
-                                shot = 0.2
-                                shotCt =0	
+                            #if shot > 4:
+                            #    shot = 0
+                            #    shotCt =0	
                             #Set the whole string
                             shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             s.sendto(shotpersecmsg, (host, port))
-                            shotCt = shot
+                            shotCt += shot
                             shot = 0
-                            print 'Threshold reached ', shotCt
+                            print 'Shot Count per second ', shotCt
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg[0]) + ' Message ' + shotpersecmsg[1]
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
                   
                         try :
-                            disturb= float(disturb) / (loopCt)
+                            disturb= disturb / loopCt
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
@@ -172,7 +172,7 @@ if __name__ == '__main__':
                             sys.exit() 
                         break
 
-            print 'onto main while loop'                
+          # print 'onto main while loop'                
             continue    
                 
         # Button click, detected, now toggle the LED
