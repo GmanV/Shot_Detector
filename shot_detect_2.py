@@ -133,11 +133,12 @@ if __name__ == '__main__':
                     loopCt +=1
                     shotdata =getSignature ()
                     #print 'Signature Detected'
-                    print shotdata
-
-                    if shotdata[1] > 0 < 25 and shotdata[2] > 1 < 50 :
-                        shot += 1
-                        print shot
+                    if shotdata[1] !=0 or shotdata[2] !=2
+                         print shotdata
+ 			 shot += 1
+                    #if shotdata[1] > 0 < 25 and shotdata[2] > 1 < 50 :
+                     #   shot += 1
+                        # print shot
                     else:
                         disturb += 0.2
                         print disturb
