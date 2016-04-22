@@ -27,7 +27,7 @@ def getTriggerf():
     while (1):
         t = time.time()
         if (trig.read() != 1):
-            # No trigger detected
+            # Trigger detected
             return (0) 
         if t > next_sample_time:
             #print 'Timed Out, no trigger event'
@@ -50,9 +50,9 @@ def getSignature():
         t = time.time()  
         if (trig.read() != prevstate):
             toggleCt += 1
-            prevstate= trig.read()
+            prevstate= trig
 
-        if (trig.read() == 1):     # valid high pulse
+        if (trig == 1):     # valid high pulse
             highCt += 1
                   
         else:     # Valid low pulse         
