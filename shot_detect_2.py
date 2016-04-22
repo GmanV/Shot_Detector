@@ -73,7 +73,7 @@ if __name__ == '__main__':
     msg1 = '{"n": "Shot", "v": .2}'
     nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
-    disturb=0
+    disturb=0.0
     shotCt=0
     shotnullmsg = '{"n": "shots", "v": 0}'
     t = time.time()
@@ -140,7 +140,7 @@ if __name__ == '__main__':
                             shot += 1
                             print 'shot fired ', shot
                         else:
-                            disturb += 1
+                            disturb += 1.0
                             print 'disturb ', disturb
 
                     if tuno > secsample_time:
