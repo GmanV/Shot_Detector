@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 next_sample_time = t + SENDMSG_INTERVAL
 
             except socket.error, msg:
-                print 'Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+                print 'Error Code : ' + str(shotmsg[0]) + ' Message ' + shotmsg[1]
                 sys.exit()
 
         else:
@@ -136,7 +136,7 @@ if __name__ == '__main__':
                     if shotdata[1] !=0 and shotdata[2] !=1:
                         print shotdata
                         loopCt +=1
-                        if shotdata[1] / shotdata[2] > 0.5 and shotdata[1] / shotdata[2] < 1.75:
+                        if shotdata[1] / shotdata[2] > 0.5 and shotdata[1] / shotdata[2] < 2.5:
                             shot += 1
                             print 'shot fired ', shot
                         else:
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                             s.sendto(shotpersecmsg, (host, port))
                             shotCt += shot
                             shot = 0
-                            print 'Shot Count per second ', shotCt
+                            print 'Shot Count per minute ', shotCt
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg[0]) + ' Message ' + shotpersecmsg[1]
@@ -165,6 +165,7 @@ if __name__ == '__main__':
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
+                            print shotpersecmsg1
                             disturb=0
                     
                         except socket.error, msg:
