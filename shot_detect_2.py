@@ -4,7 +4,7 @@ import time
 import socket   #for sockets
 import sys  #for exit
 
-INTERVAL = .025                   # Sound Signature Sample time
+INTERVAL = .100                   # Sound Signature Sample time
 BYSEC_INTERVAL =1
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
