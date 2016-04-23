@@ -136,7 +136,7 @@ if __name__ == '__main__':
                     if shotdata[1] !=0 and shotdata[2] !=1:
                         print shotdata
                         loopCt +=1
-                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 1.75:
+                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 2.5:
                             shot += 1
                             # print 'shot signature ', float(shotdata[1]) / shotdata[2]
                         else:
@@ -162,6 +162,7 @@ if __name__ == '__main__':
 
                   
                         try :
+                            print disturb	
                             disturb= disturb * loopCt
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
