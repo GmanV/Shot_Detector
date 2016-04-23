@@ -136,19 +136,19 @@ if __name__ == '__main__':
                     if shotdata[1] !=0 and shotdata[2] !=1:
                         print shotdata
                         loopCt +=1
-                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 2.5:
+                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 1.75:
                             shot += 1
-                            print 'shot signature ', float(shotdata[1]) / shotdata[2]
+                            # print 'shot signature ', float(shotdata[1]) / shotdata[2]
                         else:
                             disturb += .025
-                            print 'disturb signature ', float(shotdata[1]) / shotdata[2]
+                            # print 'disturb signature ', float(shotdata[1]) / shotdata[2]
 
                     if tuno > secsample_time:
                         try :
                             #Filter for long repeated noise	
                             if shot > 4: 
                                 shot = 0
-                           	
+                            print "overshoot shot=0'	
                             #Set the whole string
                             shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             s.sendto(shotpersecmsg, (host, port))
