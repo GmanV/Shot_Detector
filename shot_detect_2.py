@@ -148,7 +148,7 @@ if __name__ == '__main__':
                             #Filter for long repeated noise	
                             if shot > 4: 
                                 shot = 0
-                            print "overshoot shot=0'	
+                            print 'overshoot shot=0'	
                             #Set the whole string
                             shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             s.sendto(shotpersecmsg, (host, port))
