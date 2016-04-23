@@ -97,11 +97,11 @@ if __name__ == '__main__':
             	shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
-                print 'Shot Ct Message Sent', shotCt
+                print 'Shot Ct/Min Message Sent', shotCt
                 shotCt = 0
                 next_sample_time = t + SENDMSG_INTERVAL
 
-            except socket.error, msg:
+            except socket.error, shotmsg:
                 print 'Error Code : ' + str(shotmsg[0]) + ' Message ' + shotmsg[1]
                 sys.exit()
 
@@ -138,10 +138,10 @@ if __name__ == '__main__':
                         loopCt +=1
                         if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 2.5:
                             shot += 1
-                            print 'shot fired ', shot
+                            print 'shot signature ', float(shotdata[1]) / shotdata[2]
                         else:
                             disturb += 1.0
-                            print 'disturb ', disturb
+                            print 'disturb signature ', float(shotdata[1]) / shotdata[2]
 
                     if tuno > secsample_time:
                         try :
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                             s.sendto(shotpersecmsg, (host, port))
                             shotCt += shot
                             shot = 0
-                            print 'Shot Count per minute ', shotCt
+                            # print 'Shot Count per minute ', shotCt
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg[0]) + ' Message ' + shotpersecmsg[1]
