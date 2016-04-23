@@ -73,7 +73,7 @@ if __name__ == '__main__':
     msg1 = '{"n": "Shot", "v": .2}'
     nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
-    disturb=0.1
+    disturb=0.025
     shotCt=0
     shotnullmsg = '{"n": "shots", "v": 0}'
     t = time.time()
@@ -140,7 +140,7 @@ if __name__ == '__main__':
                             shot += 1
                             print 'shot signature ', float(shotdata[1]) / shotdata[2]
                         else:
-                            disturb += 0.5
+                            disturb += .025
                             print 'disturb signature ', float(shotdata[1]) / shotdata[2]
 
                     if tuno > secsample_time:
@@ -162,12 +162,12 @@ if __name__ == '__main__':
 
                   
                         try :
-                            disturb= disturb / loopCt
+                            disturb= disturb * loopCt
                             shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
                             #Set the whole string
                             s.sendto(shotpersecmsg1, (host, port))
                             # print shotpersecmsg1
-                            disturb=0.1
+                            disturb=0.025
                     
                         except socket.error, msg:
                             print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
