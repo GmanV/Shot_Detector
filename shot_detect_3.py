@@ -133,13 +133,19 @@ if __name__ == '__main__':
                     tuno = time.time()
 
                     shotdata =getSignature ()
-                    #print 'Signature Detected'
+
                     if shotdata[1] !=0 and shotdata[2] !=1:
-                        print shotdata
+
+                        1st_shotdata=list(shotdata)
+                        shotdata =getSignature ()
+                        print 1st_shotdata, shotdata
                         loopCt +=1
-                        if float(shotdata[1]) / shotdata[2] > 0.5 and float(shotdata[1]) / shotdata[2] < 2.5:
+                        if float(1st_shotdata[1]) / 1st_shotdata[2] > 0.5 and shotdata[1] ==0 and shotdata[2] ==1:
                             shot += 1
                             # print 'shot signature ', float(shotdata[1]) / shotdata[2]
+                            
+                            
+                            
                         else:
                             disturb += .025
                             # print 'disturb signature ', float(shotdata[1]) / shotdata[2]
