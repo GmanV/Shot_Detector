@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
 
-                        1st_shotdata=list(shotdata)
+                        first_shotdata=list(shotdata)
                         shotdata =getSignature ()
                         print first_shotdata, shotdata
                         loopCt +=1
