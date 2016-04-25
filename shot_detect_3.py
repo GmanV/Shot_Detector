@@ -141,15 +141,15 @@ if __name__ == '__main__':
                     tuno = time.time()
 
                     shotdata =getSignature ()
-                    print shotdata
+                    # print shotdata
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
 		        # Check sound disturbance for possible shot fired
-                        loopCt +=1
+                        disturb += 1
                       
                         if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 2.25:
                             disturb += 1
-                            # print 'disturb signature ', shotdata[1] / shotdata[2]
+                            print 'disturb signature ', shotdata[1] / shotdata[2]
                         else:
                             # looks like a shot
                             first_shotdata=list(shotdata)
