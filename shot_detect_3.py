@@ -193,7 +193,7 @@ if __name__ == '__main__':
                         except socket.error, msg:
                             print 'Error Code : ' + str(disturbpersecmsg[0]) + ' Message ' + disturbpersecmsg[1]
                             sys.exit() 
-                        break
+                        # break
 
           # print 'onto main while loop'                
             continue    
