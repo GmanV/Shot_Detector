@@ -155,9 +155,9 @@ if __name__ == '__main__':
                             first_shotdata=list(shotdata)
                             shotdata =getSignature ()
                             print '1st and 2nd ', first_shotdata, shotdata
-                            if shotdata[1] ==0 and shotdata[2] ==1:           
+                            if shotdata[1] < 2 and shotdata[2] <4:           
                                 shot += 1
-                                print shot
+                                print 'shot', shot
                             else:    
                                 disturb += 1
                             
@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
                   
                         try :
-                            print disturb	
+                            print 'Disturbance ', disturb	
 
                             disturbpersecmsg = ''.join(('{"n": "Disturb", "v": ', str(disturb),'}'))
                             #Set the whole string
