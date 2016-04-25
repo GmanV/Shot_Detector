@@ -147,7 +147,7 @@ if __name__ == '__main__':
 		        # Check sound disturbance for possible shot fired
                         loopCt +=1
                       
-                        if float(shotdata[1]) / shotdata[2] !> 0.5 and float(shotdata[1]) / shotdata[2] !<2.25:
+                        if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 2.25:
                             disturb += 1
                             # print 'disturb signature ', shotdata[1] / shotdata[2]
                         else:
@@ -162,10 +162,10 @@ if __name__ == '__main__':
                                 disturb += 1
                             
                     if tuno > secsample_time:
-                    	    # Filter for long repeated noise, excessive	
-                            if shot > 4: 
-                                shot = 0
-                                print 'overshoot/sec shot = 0'
+                        # Filter for long repeated noise, excessive	
+                        if shot > 4: 
+                            shot = 0
+                            print 'overshoot/sec shot = 0'
                         try :
 	
                             #Set the whole string
