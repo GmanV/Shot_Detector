@@ -133,7 +133,7 @@ if __name__ == '__main__':
                     tuno = time.time()
 
                     shotdata =getSignature ()
-                    print "shotdata', shotdata
+                    print shotdata
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
 
