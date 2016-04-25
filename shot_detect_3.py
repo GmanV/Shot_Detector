@@ -70,8 +70,8 @@ def getSignature():
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
-    msg = '{"n": "Shot", "v": 1.0}'
-    msg1 = '{"n": "Shot", "v": .2}'
+    # msg = '{"n": "Shot", "v": 1.0}'
+    # msg1 = '{"n": "Shot", "v": .2}'
     nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
     disturb=0.025
@@ -136,21 +136,23 @@ if __name__ == '__main__':
                     print shotdata
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
-
-                        first_shotdata=list(shotdata)
-                        shotdata =getSignature ()
-                        print '1st and 2nd ', first_shotdata, shotdata
+		        #Check for disturbance vs shot fired
                         loopCt +=1
-                        if float(first_shotdata[1]) / first_shotdata[2] > 0.5 and shotdata[1] ==0 and shotdata[2] ==1:
-                            shot += 1
-                            # print 'shot signature ', float(shotdata[1]) / shotdata[2]
-                            
-                            
-                            
-                        else:
+                      
+                        if float(shotdata[1]) / shotdata[2] !> 0.5 and float(shotdata[1]) / shotdata[2] !<2.25:
                             disturb += .025
                             # print 'disturb signature ', float(shotdata[1]) / shotdata[2]
-
+                        else:
+                            # looks like a shot
+                            first_shotdata=list(shotdata)
+                            shotdata =getSignature ()
+                            print '1st and 2nd ', first_shotdata, shotdata
+                            if shotdata[1] ==0 and shotdata[2] ==1:           
+                                shot += 1
+                                print shot
+                            else:    
+                                disturb += .025
+                            
                     if tuno > secsample_time:
                         try :
                             #Filter for long repeated noise	
@@ -171,15 +173,15 @@ if __name__ == '__main__':
                   
                         try :
                             print disturb	
-                            disturb= disturb * loopCt
-                            shotpersecmsg1 = ''.join(('{"n": "Shot", "v": ', str(disturb),'}'))
+
+                            disturbpersecmsg = ''.join(('{"n": "Disturb", "v": ', str(disturb),'}'))
                             #Set the whole string
-                            s.sendto(shotpersecmsg1, (host, port))
+                            s.sendto(disturbpersecmsg, (host, port))
                             # print shotpersecmsg1
-                            disturb=0.025
+                            disturb=0
                     
                         except socket.error, msg:
-                            print 'Error Code : ' + str(shotpersecmsg1[0]) + ' Message ' + shotpersecmsg1[1]
+                            print 'Error Code : ' + str(disturbpersecmsg[0]) + ' Message ' + disturbpersecmsg[1]
                             sys.exit() 
                         break
 
