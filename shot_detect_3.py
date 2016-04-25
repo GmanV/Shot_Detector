@@ -1,5 +1,4 @@
-#shot_detect_3.py 04/24/16
-# Shot_Detector 2
+#shot_detect_3.py 04/25/16
 import mraa 
 import time
 import socket   #for sockets
@@ -74,9 +73,10 @@ if __name__ == '__main__':
     # msg1 = '{"n": "Shot", "v": .2}'
     nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
-    disturb=0.025
+    disturb=0
     shotCt=0
     shotnullmsg = '{"n": "shots", "v": 0}'
+    disturbnullmsg = '{"n": "Disturb", "v": 0}'
     t = time.time()
     next_sample_time = t + SENDMSG_INTERVAL
     
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
     while 1:
 
-# 1st checks for SendMsg Interval for number of shots               
+        # 1st checks for SendMsg Interval for number of shots               
 
         t = time.time()
 
@@ -107,13 +107,13 @@ if __name__ == '__main__':
                 sys.exit()
 
         else:
-        #   print 'going into get trigger'
-            
-	# wait until trigger or timed out
+       
+	    # wait until trigger or timed out
             lowtrig = getTriggerf()
  
             if lowtrig != 0:
-                 
+            	
+                # No trigger events nor disturbances 
                 try:
                     #Set the whole string
                     s.sendto(nullmsg, (host, port))
@@ -121,6 +121,14 @@ if __name__ == '__main__':
 
                 except socket.error, msg:
                     print 'Error Code : ' + str(nullmsg[0]) + ' Message ' + nullmsg[1]
+                    sys.exit() 
+                try:
+                    #Set the whole string
+                    s.sendto(disturbnullmsg, (host, port))
+                    print 'No Disturbances, nullmsg sent'
+
+                except socket.error, msg:
+                    print 'Error Code : ' + str(disturbnullmsg[0]) + ' Message ' + disturbnullmsg[1]
                     sys.exit() 
 
             else:
@@ -136,12 +144,12 @@ if __name__ == '__main__':
                     print shotdata
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
-		        #Check for disturbance vs shot fired
+		        # Check sound disturbance for possible shot fired
                         loopCt +=1
                       
                         if float(shotdata[1]) / shotdata[2] !> 0.5 and float(shotdata[1]) / shotdata[2] !<2.25:
-                            disturb += .025
-                            # print 'disturb signature ', float(shotdata[1]) / shotdata[2]
+                            disturb += 1
+                            # print 'disturb signature ', shotdata[1] / shotdata[2]
                         else:
                             # looks like a shot
                             first_shotdata=list(shotdata)
@@ -151,14 +159,15 @@ if __name__ == '__main__':
                                 shot += 1
                                 print shot
                             else:    
-                                disturb += .025
+                                disturb += 1
                             
                     if tuno > secsample_time:
-                        try :
-                            #Filter for long repeated noise	
+                    	    # Filter for long repeated noise, excessive	
                             if shot > 4: 
                                 shot = 0
-                                print 'overshoot shot=0'	
+                                print 'overshoot/sec shot = 0'
+                        try :
+	
                             #Set the whole string
                             shotpersecmsg = ''.join(('{"n": "Shot", "v": ', str(shot),'}'))
                             s.sendto(shotpersecmsg, (host, port))
