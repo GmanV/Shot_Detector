@@ -133,12 +133,13 @@ if __name__ == '__main__':
                     tuno = time.time()
 
                     shotdata =getSignature ()
+                    print "shotdata', shotdata
 
                     if shotdata[1] !=0 and shotdata[2] !=1:
 
                         first_shotdata=list(shotdata)
                         shotdata =getSignature ()
-                        print first_shotdata, shotdata
+                        print '1st and 2nd 'first_shotdata, shotdata
                         loopCt +=1
                         if float(first_shotdata[1]) / first_shotdata[2] > 0.5 and shotdata[1] ==0 and shotdata[2] ==1:
                             shot += 1
