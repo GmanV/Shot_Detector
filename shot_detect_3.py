@@ -157,6 +157,7 @@ if __name__ == '__main__':
                             print '1st and 2nd ', first_shotdata, shotdata
                             if shotdata[1] < 2 and shotdata[2] <4:           
                                 shot += 1
+                                disturb += 10
                                 print 'shot', shot
                             else:    
                                 disturb += 1
