@@ -5,7 +5,7 @@ import socket   #for sockets
 import sys  #for exit
 
 INTERVAL = .025                   # Sound Signature Sample time
-BYSEC_INTERVAL =1
+BYSEC_INTERVAL =2
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
@@ -149,7 +149,7 @@ if __name__ == '__main__':
                       
                         if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 2.25:
                             disturb += 1
-                            print 'disturb signature ', shotdata[1] / shotdata[2]
+                            print 'disturb signature ', float(shotdata[1]) / shotdata[2]
                         else:
                             # looks like a shot
                             first_shotdata=list(shotdata)
@@ -161,10 +161,11 @@ if __name__ == '__main__':
                                 print 'shot', shot
                             else:    
                                 disturb += 1
+                                print 'echo'
                             
                     if tuno > secsample_time:
                         # Filter for long repeated noise, excessive	
-                        if shot > 4: 
+                        if shot > 7: 
                             shot = 0
                             print 'overshoot/sec shot = 0'
                         try :
@@ -182,7 +183,7 @@ if __name__ == '__main__':
 
                   
                         try :
-                            print 'Disturbance ', disturb	
+                            print 'Disturbance/sec ', disturb	
 
                             disturbpersecmsg = ''.join(('{"n": "Disturb", "v": ', str(disturb),'}'))
                             #Set the whole string
