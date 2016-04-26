@@ -90,7 +90,7 @@ if __name__ == '__main__':
     while 1:
 
         # 1st checks for SendMsg Interval for number of shots
-        Print 'MAIN WHILE LOOP Restart'
+        print 'MAIN WHILE LOOP Restart'
 
         t = time.time()
 
