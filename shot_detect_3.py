@@ -89,7 +89,8 @@ if __name__ == '__main__':
 
     while 1:
 
-        # 1st checks for SendMsg Interval for number of shots               
+        # 1st checks for SendMsg Interval for number of shots
+        Print 'MAIN WHILE LOOP Restart'
 
         t = time.time()
 
@@ -197,8 +198,8 @@ if __name__ == '__main__':
                         break
 
           # print 'onto main while loop'                
-            continue    
-                
+          #  continue    
+        continue                
         # Button click, detected, now toggle the LED
 #        if ledState == True:
 #            led.write(1)
