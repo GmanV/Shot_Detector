@@ -150,7 +150,7 @@ if __name__ == '__main__':
                       
                         if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 2.25:
                             disturb += 1
-                            print 'disturb signature ', float(shotdata[1]) / shotdata[2]
+                            print 'disturb signature ', shotdata
                         else:
                             # looks like a shot
                             first_shotdata=list(shotdata)
