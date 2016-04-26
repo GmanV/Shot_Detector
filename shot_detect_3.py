@@ -5,8 +5,8 @@ import socket   #for sockets
 import sys  #for exit
 
 INTERVAL = .025                # Sound Signature Sample time
-BYSEC_INTERVAL =20
-SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
+BYSEC_INTERVAL =60
+SENDMSG_INTERVAL =300           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
 TRIGGER_GPIO = 6               # The TRIGGER GPIO
