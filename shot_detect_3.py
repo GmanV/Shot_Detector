@@ -5,7 +5,7 @@ import socket   #for sockets
 import sys  #for exit
 
 INTERVAL = .023                # Sound Signature Sample time
-BYSEC_INTERVAL =10
+BYSEC_INTERVAL =5
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
 #LED_GPIO = 5                   # The LED pin
@@ -156,7 +156,7 @@ if __name__ == '__main__':
                             first_shotdata=list(shotdata)
                             shotdata =getSignature ()
                             print '1st and 2nd ', first_shotdata, shotdata
-                            if shotdata[1] < 3 and shotdata[2] <5:           
+                            if shotdata[1] < 4 and shotdata[2] <6:           
                                 shot += 1
                                 disturb += 10
                                 print 'shot', shot
@@ -166,7 +166,7 @@ if __name__ == '__main__':
                             
                     if tuno > secsample_time:
                         # Filter for long repeated noise, excessive	
-                        if shot > 7: 
+                        if shot > 15: 
                             shot = 0
                             print 'overshoot/sec shot = 0'
                         try :
