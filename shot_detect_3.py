@@ -4,7 +4,7 @@ import time
 import socket   #for sockets
 import sys  #for exit
 
-INTERVAL = .02                   # Sound Signature Sample time
+INTERVAL = .03                   # Sound Signature Sample time
 BYSEC_INTERVAL =2
 SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
 
@@ -156,7 +156,7 @@ if __name__ == '__main__':
                             first_shotdata=list(shotdata)
                             shotdata =getSignature ()
                             print '1st and 2nd ', first_shotdata, shotdata
-                            if shotdata[1] < 2 and shotdata[2] <4:           
+                            if shotdata[1] < 3 and shotdata[2] <5:           
                                 shot += 1
                                 disturb += 10
                                 print 'shot', shot
