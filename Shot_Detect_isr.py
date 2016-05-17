@@ -47,7 +47,9 @@ try:
 	print("Starting ISR for pin " + repr(pin))
 	x.dir(mraa.DIR_IN)
 	x.isr(mraa.EDGE_BOTH, test, x)
+	print'are we looping'
 	var = raw_input("Press ENTER to stop")
+	arecord -f cd output_stereo.wav
 	x.isrExit()
 except ValueError as e:
     print(e)
