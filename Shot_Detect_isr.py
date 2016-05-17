@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
+import alsaaudio
 import mraa
 import time
 import sys
@@ -47,7 +48,7 @@ try:
 	print("Starting ISR for pin " + repr(pin))
 	x.dir(mraa.DIR_IN)
 	x.isr(mraa.EDGE_BOTH, test, x)
-	print'are we looping'
+	print'are we looping?'
 	var = raw_input("Press ENTER to stop")
 	arecord -f cd output_stereo.wav
 	x.isrExit()
