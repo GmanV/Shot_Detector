@@ -19,7 +19,7 @@
 import sys
 import time
 import getopt
-import pyalsaaudio
+import alsaaudio
 
 def usage():
     sys.stderr.write('usage: recordtest.py [-c <card>] <file>\n')
