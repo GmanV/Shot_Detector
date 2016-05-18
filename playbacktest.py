@@ -1,4 +1,3 @@
-Enter file contents here
 ## playbacktest.py
 ##
 ## This is an example of a simple sound playback script.
