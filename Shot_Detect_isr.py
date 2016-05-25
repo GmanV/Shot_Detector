@@ -34,6 +34,8 @@ c = Counter()
 # inside a python interrupt you cannot use 'basic' types so you'll need to use
 # objects
 def test(gpio):
+  print "Gunshot"
+  print c.count
   print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
   c.count+=1
 
