@@ -39,7 +39,7 @@ def test(gpio):
   print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
   c.count+=1
 
-pin = 6
+pin = 4;
 if (len(sys.argv) == 2):
   try:
     pin = int(sys.argv[1], 10)
@@ -49,7 +49,7 @@ try:
 	x = mraa.Gpio(pin)
 	print("Starting ISR for pin " + repr(pin))
 	x.dir(mraa.DIR_IN)
-	x.isr(mraa.EDGE_FALLING, test, x)
+	x.isr(mraa.EDGE_BOTH, test, x)
 	print'are we looping?'
 	var = raw_input("Press ENTER to stop")
 	#arecord -f cd output_stereo.wav
