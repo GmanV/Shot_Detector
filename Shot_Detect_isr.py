@@ -39,7 +39,7 @@ def test(gpio):
   print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
   c.count+=1
 
-pin = 6;
+pin = 6
 if (len(sys.argv) == 2):
   try:
     pin = int(sys.argv[1], 10)
