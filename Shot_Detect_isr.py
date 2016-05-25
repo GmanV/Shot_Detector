@@ -51,6 +51,8 @@ try:
 	x.dir(mraa.DIR_IN)
 	x.isr(mraa.EDGE_BOTH, test, x)
 	print'are we looping?'
+	print x
+	print x.read
 	var = raw_input("Press ENTER to stop")
 	#arecord -f cd output_stereo.wav
 	x.isrExit()
