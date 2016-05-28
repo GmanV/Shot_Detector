@@ -148,7 +148,7 @@ if __name__ == '__main__':
 		        # Check sound disturbance for possible shot fired
                         disturb += 1
                       
-                        if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 6.5:
+                        if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 7.5:
                             disturb += 1
                             print 'disturb signature ', shotdata
                         else:
