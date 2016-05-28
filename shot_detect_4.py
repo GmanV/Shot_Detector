@@ -1,26 +1,20 @@
-#shot_detect_3.py 04/25/16
+#shot_detect_4.py 05/28/16  Simplified
 import mraa 
 import time
 import socket   #for sockets
 import sys  #for exit
 
 INTERVAL = .025                # Sound Signature Sample time
-BYSEC_INTERVAL =2
-SENDMSG_INTERVAL =60           # Minimum time between sending something to cloud
+BYSEC_INTERVAL =1
+SENDMSG_INTERVAL =300           # Minimum time between sending something to cloud
 
-#LED_GPIO = 5                   # The LED pin
 TRIGGER_GPIO = 6               # The TRIGGER GPIO
-#led = mraa.Gpio(LED_GPIO)      # Get the LED pin object
-#led.dir(mraa.DIR_OUT)          # Set the direction as output
+
 trig = mraa.Gpio(TRIGGER_GPIO)   # Get the TRIGGER pin object
 trig.dir(mraa.DIR_IN)           # Set the direction as input
 
-#ledState = False               # LED is off to begin with
-#led.write(0)
-
-
 def getTriggerf():
-    """ This function operates for minimal send interval of trigger event """
+    """ This function operates for minimal send interval or trigger event """
     t = time.time()
     next_sample_time = t + SENDMSG_INTERVAL
     
@@ -69,8 +63,7 @@ def getSignature():
 if __name__ == '__main__':
     host = '127.0.0.1'
     port = 41234
-    # msg = '{"n": "Shot", "v": 1.0}'
-    # msg1 = '{"n": "Shot", "v": .2}'
+
     nullmsg = '{"n": "Shot", "v": 0.0}'
     shot=0
     disturb=0
@@ -91,7 +84,6 @@ if __name__ == '__main__':
 
         # 1st checks for SendMsg Interval for number of shots
         print 'MAIN WHILE LOOP Restart'
-
         t = time.time()
 
         if t > next_sample_time:
@@ -148,7 +140,7 @@ if __name__ == '__main__':
 		        # Check sound disturbance for possible shot fired
                         disturb += 1
                       
-                        if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 6.5:
+                        if float(shotdata[1]) / shotdata[2] < 0.5 or float(shotdata[1]) / shotdata[2] > 7.5:
                             disturb += 1
                             print 'disturb signature ', shotdata
                         else:
@@ -156,7 +148,7 @@ if __name__ == '__main__':
                             first_shotdata=list(shotdata)
                             shotdata =getSignature ()
                             print '1st and 2nd ', first_shotdata, shotdata
-                            if shotdata[1] < 4 and shotdata[2] <6:           
+                            if shotdata[1] < 8 and shotdata[2] <4:           
                                 shot += 1
                                 disturb += 10
                                 print 'shot', shot
