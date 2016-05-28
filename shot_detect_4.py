@@ -148,7 +148,7 @@ if __name__ == '__main__':
                             first_shotdata=list(shotdata)
                             shotdata =getSignature ()
                             print '1st and 2nd ', first_shotdata, shotdata
-                            if shotdata[1] < 8 and shotdata[2] <4:           
+                            if shotdata[1] < 12 and shotdata[2] <4:           
                                 shot += 1
                                 disturb += 10
                                 print 'shot', shot
