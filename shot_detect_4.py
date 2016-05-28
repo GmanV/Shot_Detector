@@ -68,7 +68,7 @@ if __name__ == '__main__':
     shot=0
     disturb=0
     shotCt=0
-    shotnullmsg = '{"n": "shots", "v": 0}'
+    shotnullmsg = '{"n": "shot5min", "v": 0}'
     disturbnullmsg = '{"n": "Disturb", "v": 0}'
     t = time.time()
     next_sample_time = t + SENDMSG_INTERVAL
@@ -88,10 +88,10 @@ if __name__ == '__main__':
 
         if t > next_sample_time:
             try :
-            	shotmsg = ''.join(('{"n": "shots", "v": ', str(shotCt),'}'))
+            	shotmsg = ''.join(('{"n": "shot5min", "v": ', str(shotCt),'}'))
                 #Set the whole string
                 s.sendto(shotmsg, (host, port))
-                print 'Shot Ct/Min Message Sent', shotCt
+                print 'Shot Ct over 5min Message Sent', shotCt
                 shotCt = 0
                 next_sample_time = t + SENDMSG_INTERVAL
 
@@ -189,16 +189,6 @@ if __name__ == '__main__':
                             sys.exit() 
                         break
 
-          # print 'onto main while loop'                
-          #  continue    
         continue                
-        # Button click, detected, now toggle the LED
-#        if ledState == True:
-#            led.write(1)
-#            ledState = False
-#        else:
-#            led.write(0)
-#            ledState = True
 
-#    time.sleep(0.005)
 
